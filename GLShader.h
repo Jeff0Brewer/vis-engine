@@ -3,6 +3,6 @@
 #define GL_SILENCE_DEPRECATION
 #include <GLFW/glfw3.h>
 
-GLuint LoadProgram(const char *vertexPath, const char *fragmentPath);
+GLuint loadProgram(const char *vertexPath, const char *fragmentPath);
 
 #endif

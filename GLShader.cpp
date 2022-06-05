@@ -22,7 +22,7 @@ std::string readFile(const char *filePath){
     return content;
 }
 
-GLuint LoadProgram(const char *vertexPath, const char *fragmentPath){
+GLuint loadProgram(const char *vertexPath, const char *fragmentPath){
     std::string vertStr = readFile(vertexPath);
     std::string fragStr = readFile(fragmentPath);
     const char *vertSource = vertStr.c_str();
