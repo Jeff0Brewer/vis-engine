@@ -41,7 +41,8 @@ int main(int argc, char** argv){
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
 
-    GLuint shaderProgram = loadProgram("./shaders/triVert.glsl", "./shaders/triFrag.glsl");
+    GLuint shaderProgram = loadProgram("./shaders/defVert.glsl", "./shaders/defFrag.glsl");
+    glEnable(GL_PROGRAM_POINT_SIZE);
 
     int numVertex = 1000;
     float verts [3*numVertex];
@@ -53,15 +54,37 @@ int main(int argc, char** argv){
     }
     
     GLuint VAO;
-    GLuint VBO;
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
+
+    GLuint VBO;
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
+
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-    glPointSize(5.0);
+
+    glUseProgram(shaderProgram);
+    GLint uModelMatrix = glGetUniformLocation(shaderProgram, "modelMatrix");
+    GLint uViewMatrix = glGetUniformLocation(shaderProgram, "viewMatrix");
+    GLint uProjMatrix = glGetUniformLocation(shaderProgram, "projMatrix");
+
+    float modelMatrix[16] = {};
+    initModelMatrix(modelMatrix);
+    glUniformMatrix4fv(uModelMatrix, 1, false, modelMatrix);
+
+    float viewMatrix[16] = {};
+    float camPosition[3] = {0.0f, 8.0f, 0.0f};
+    float camFocus[3] = {0.0f, 0.0f, 0.0f};
+    float camUp[3] = {0.0f, 0.0f, 1.0f};
+    setViewMatrix(camPosition, camFocus, camUp, viewMatrix);
+    glUniformMatrix4fv(uViewMatrix, 1, false, viewMatrix);
+
+
+    float projMatrix[16] = {};
+    setPerspectiveMatrix(80.0, 0.1, 1000.0, float(windowWidth) / float(windowHeight), projMatrix);
+    glUniformMatrix4fv(uProjMatrix, 1, false, projMatrix);
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)){
