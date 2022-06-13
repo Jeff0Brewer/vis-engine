@@ -1,7 +1,7 @@
-/* Ask for an OpenGL Core Context */
 #define GLFW_INCLUDE_GLCOREARB
 #include "GLShader.h"
 #include "GLMat.h"
+#include "GLMouse.h"
 #include <GLFW/glfw3.h>
 #include <stdlib.h>
 #include <time.h>
@@ -16,7 +16,6 @@ int main(int argc, char** argv){
 
     GLFWwindow* window;
 
-    /* Initialize the library */
     if ( !glfwInit() ){
          return -1;
     }
@@ -29,7 +28,6 @@ int main(int argc, char** argv){
     glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #endif
 
-    /* Create a windowed mode window and its OpenGL context */
     const int windowWidth = 1280;
     const int windowHeight = 720;
     window = glfwCreateWindow( windowWidth, windowHeight, "vis", NULL, NULL );
@@ -38,7 +36,6 @@ int main(int argc, char** argv){
          return -1;
     }
 
-    /* Make the window's context current */
     glfwMakeContextCurrent(window);
 
     GLuint shaderProgram = loadProgram("./shaders/defVert.glsl", "./shaders/defFrag.glsl");
@@ -71,11 +68,11 @@ int main(int argc, char** argv){
     GLint uProjMatrix = glGetUniformLocation(shaderProgram, "projMatrix");
 
     float modelMatrix[16] = {};
-    initModelMatrix(modelMatrix);
+    setIdentityMatrix(modelMatrix);
     glUniformMatrix4fv(uModelMatrix, 1, false, modelMatrix);
 
     float viewMatrix[16] = {};
-    float camPosition[3] = {0.0f, 8.0f, 0.0f};
+    float camPosition[3] = {0.0f, 2.0f, 1.0f};
     float camFocus[3] = {0.0f, 0.0f, 0.0f};
     float camUp[3] = {0.0f, 0.0f, 1.0f};
     setViewMatrix(camPosition, camFocus, camUp, viewMatrix);
@@ -86,8 +83,14 @@ int main(int argc, char** argv){
     setPerspectiveMatrix(80.0, 0.1, 1000.0, float(windowWidth) / float(windowHeight), projMatrix);
     glUniformMatrix4fv(uProjMatrix, 1, false, projMatrix);
 
-    /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)){
+        if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+            double mouseX, mouseY;
+            glfwGetCursorPos(window, &mouseX, &mouseY);
+            mouseRotate(mouseX, mouseY, modelMatrix);
+            glUniformMatrix4fv(uModelMatrix, 1, false, modelMatrix);
+        }
+
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

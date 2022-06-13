@@ -3,7 +3,13 @@
 
 #include <math.h>
 
-void initModelMatrix(float *matrix);
+void multiplyMat4(float *a, float *b, float *out);
+
+void copyMat4(float *a, float *out);
+
+void setIdentityMatrix(float *matrix);
+
+void setRotationMatrix(double angle, float x, float y, float z, float *matrix);
 
 void setPerspectiveMatrix(const float fov, const float near, const float far, const float aspect, float *matrix);
 
