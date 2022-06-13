@@ -1,24 +1,35 @@
 #include "GLMouse.h"
+#include <math.h>
 
 double lastX = 0.0;
 double lastY = 0.0;
+bool lastDown = false;
 
-void mouseRotate(double mouseX, double mouseY, float *matrix) {
+void mouseRotate(double mouseX, double mouseY, bool mouseDown, float *up, float *right, float *matrix) {
+    if (!mouseDown) {
+        lastDown = false;
+        return;
+    }
+    if (!lastDown) {
+        lastDown = true;
+        lastX = mouseX;
+        lastY = mouseY;
+        return;
+    }
     double moveX = mouseX - lastX;
     lastX = mouseX;
     double moveY = mouseY - lastY;
     lastY = mouseY;
 
     float rotation[16] = {};
-    setRotationMatrix(moveX/100.0, 0.0, 0.0, 1.0, rotation);
-    float oldMat[16] = {};
-    copyMat4(matrix, oldMat);
-    multiplyMat4(oldMat, rotation, matrix);
+    float old[16] = {};
+    
+    double rotSpeed = .01;
+    setRotationMatrix(moveX*rotSpeed, up[0], up[1], up[2], rotation);
+    copyMat4(matrix, old);
+    multiplyMat4(old, rotation, matrix);
 
-
-   // find mouse movement
-   // determine axis perpendicular to movement
-   // rotate matrix about axis relative to movement magnitude
-
-   // functions needed: rotation matrix generation, matrix multiplication
+    setRotationMatrix(moveY*rotSpeed, right[0], right[2], right[2], rotation);
+    copyMat4(matrix, old);
+    multiplyMat4(old, rotation, matrix);
 }

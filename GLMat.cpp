@@ -118,17 +118,14 @@ void setPerspectiveMatrix(const float fov, const float near, const float far, co
     matrix[15] = 0.0f;
 }
 
-void setViewMatrix(float *position, float *focus, float *up, float *matrix) {
+void setViewMatrix(float *position, float *focus, float *up, float *right, float *matrix) {
     float forward[3] = {
         position[0] - focus[0],
         position[1] - focus[1],
         position[2] - focus[2]
     };
     normalize(forward);
-
-    float right[3] = {};
     cross(forward, up, right);
-
     normalize(right);
     cross(right, forward, up);
     

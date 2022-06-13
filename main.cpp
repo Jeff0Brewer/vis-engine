@@ -71,11 +71,12 @@ int main(int argc, char** argv){
     setIdentityMatrix(modelMatrix);
     glUniformMatrix4fv(uModelMatrix, 1, false, modelMatrix);
 
-    float viewMatrix[16] = {};
     float camPosition[3] = {0.0f, 2.0f, 1.0f};
     float camFocus[3] = {0.0f, 0.0f, 0.0f};
     float camUp[3] = {0.0f, 0.0f, 1.0f};
-    setViewMatrix(camPosition, camFocus, camUp, viewMatrix);
+    float camRight[3] = {};
+    float viewMatrix[16] = {};
+    setViewMatrix(camPosition, camFocus, camUp, camRight, viewMatrix);
     glUniformMatrix4fv(uViewMatrix, 1, false, viewMatrix);
 
 
@@ -84,12 +85,11 @@ int main(int argc, char** argv){
     glUniformMatrix4fv(uProjMatrix, 1, false, projMatrix);
 
     while (!glfwWindowShouldClose(window)){
-        if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
-            double mouseX, mouseY;
-            glfwGetCursorPos(window, &mouseX, &mouseY);
-            mouseRotate(mouseX, mouseY, modelMatrix);
-            glUniformMatrix4fv(uModelMatrix, 1, false, modelMatrix);
-        }
+        bool mouseDown = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
+        double mouseX, mouseY;
+        glfwGetCursorPos(window, &mouseX, &mouseY);
+        mouseRotate(mouseX, mouseY, mouseDown, camUp, camRight, modelMatrix);
+        glUniformMatrix4fv(uModelMatrix, 1, false, modelMatrix);
 
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
