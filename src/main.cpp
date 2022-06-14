@@ -1,7 +1,7 @@
 #define GLFW_INCLUDE_GLCOREARB
-#include "GLShader.h"
-#include "GLMat.h"
-#include "GLMouse.h"
+#include "../include/GLShader.h"
+#include "../include/GLMat.h"
+#include "../include/GLMouse.h"
 #include <GLFW/glfw3.h>
 #include <stdlib.h>
 #include <time.h>
@@ -38,7 +38,7 @@ int main(int argc, char** argv){
 
     glfwMakeContextCurrent(window);
 
-    GLuint shaderProgram = loadProgram("./shaders/defVert.glsl", "./shaders/defFrag.glsl");
+    GLuint shaderProgram = loadProgram("./src/shaders/defVert.glsl", "./src/shaders/defFrag.glsl");
     glEnable(GL_PROGRAM_POINT_SIZE);
 
     int numVertex = 1000;

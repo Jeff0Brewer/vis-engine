@@ -1,4 +1,4 @@
-#include "GLMouse.h"
+#include "../include/GLMouse.h"
 #include <math.h>
 
 double lastX = 0.0;

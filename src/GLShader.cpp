@@ -1,19 +1,19 @@
-#include "GLShader.h"
+#include "../include/GLShader.h"
 
 #include <string>
 #include <iostream>
 #include <fstream>
 
-std::string readFile(const char *filePath){
+std::string readFile(const char *filePath) {
     std::ifstream fileStream(filePath, std::ios::in);
-    if(!fileStream.is_open()){
+    if(!fileStream.is_open()) {
         std::cerr << "Could not read file " << filePath << std::endl;
         return "";
     }
 
     std::string content;
     std::string line = "";
-    while(!fileStream.eof()){
+    while(!fileStream.eof()) {
         std::getline(fileStream, line);
         content.append(line + "\n");
     }
@@ -22,7 +22,7 @@ std::string readFile(const char *filePath){
     return content;
 }
 
-GLuint loadProgram(const char *vertexPath, const char *fragmentPath){
+GLuint loadProgram(const char *vertexPath, const char *fragmentPath) {
     std::string vertStr = readFile(vertexPath);
     std::string fragStr = readFile(fragmentPath);
     const char *vertSource = vertStr.c_str();
@@ -36,7 +36,7 @@ GLuint loadProgram(const char *vertexPath, const char *fragmentPath){
     glShaderSource(vertShader, 1, &vertSource, NULL);
     glCompileShader(vertShader);
     glGetShaderiv(vertShader, GL_COMPILE_STATUS, &success);
-    if(!success){
+    if(!success) {
         glGetShaderInfoLog(vertShader, logSize, NULL, infoLog);
         std::cerr << "Vertex shader compilation failed\n" << infoLog << std::endl;
     }
@@ -45,7 +45,7 @@ GLuint loadProgram(const char *vertexPath, const char *fragmentPath){
     glShaderSource(fragShader, 1, &fragSource, NULL);
     glCompileShader(fragShader);
     glGetShaderiv(fragShader, GL_COMPILE_STATUS, &success);
-    if(!success){
+    if(!success) {
         glGetShaderInfoLog(fragShader, logSize, NULL, infoLog);
         std::cerr << "Fragment shader compilation failed\n" << infoLog << std::endl;
     }
@@ -55,7 +55,7 @@ GLuint loadProgram(const char *vertexPath, const char *fragmentPath){
     glAttachShader(program, fragShader);
     glLinkProgram(program);
     glGetProgramiv(program, GL_LINK_STATUS, &success);
-    if(!success){
+    if(!success) {
         glGetProgramInfoLog(program, logSize, NULL, infoLog);
         std::cerr << "Shader linking failed\n" << infoLog << std::endl;
     }

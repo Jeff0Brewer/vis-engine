@@ -1,4 +1,4 @@
-#include "GLMat.h"
+#include "../include/GLMat.h"
 #include <math.h>
 
 void cross(const float *a, const float *b, float *out) {
