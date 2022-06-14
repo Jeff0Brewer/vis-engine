@@ -1,1 +1,1 @@
-clang++ ./tests/test.cpp -std=c++11
+clang++ ./tests/*.cpp -std=c++11
