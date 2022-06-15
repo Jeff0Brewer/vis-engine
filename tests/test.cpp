@@ -1,13 +1,36 @@
-#define CATCH_CONFIG_MAIN
+#define CATCH_CONFIG_RUNNER
 #include "catch.hpp"
-#include <math.h>
+#define TEST true
+#define GLFW_INCLUDE_GLCOREARB
+#include <GLFW/glfw3.h>
 
-#include "../src/GLMat.cpp"
-
-TEST_CASE("Normalized vector is of length 1", "[normalize]") {
-    float v[3] = {1.0f, 2.0f, -4.0f};
-    normalize(v);
-    double length = sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]);
-
-    REQUIRE(length == Approx(1.0));
+int runCatchTests(int argc, char* const argv[]) {
+    return Catch::Session().run(argc, argv);
 }
+ 
+int main( int argc, char* const argv[] ) {
+    // setup gl context for testing
+    GLFWwindow* window;
+    if ( !glfwInit() ){
+         return -1;
+    }
+
+#ifdef __APPLE__
+    /* We need to explicitly ask for a 3.2 context on OS X */
+    glfwWindowHint (GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint (GLFW_CONTEXT_VERSION_MINOR, 2);
+    glfwWindowHint (GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#endif
+
+    window = glfwCreateWindow( 1, 1, "test", NULL, NULL );
+    if (!window){
+         glfwTerminate();
+         return -1;
+    }
+    glfwMakeContextCurrent(window);
+
+    // run tests
+    return runCatchTests(argc, argv);
+}
+

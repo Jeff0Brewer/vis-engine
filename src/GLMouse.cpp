@@ -5,7 +5,7 @@ double lastX = 0.0;
 double lastY = 0.0;
 bool lastDown = false;
 
-void mouseRotate(double mouseX, double mouseY, bool mouseDown, float *up, float *right, float *matrix) {
+void mouseRotate(const double mouseX, const double mouseY, const bool mouseDown, const float *up, const float *right, float *matrix) {
     if (!mouseDown) {
         lastDown = false;
         return;

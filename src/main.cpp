@@ -1,4 +1,5 @@
 #define GLFW_INCLUDE_GLCOREARB
+#define GL_SILENCE_DEPRECATION
 #include "../include/GLShader.h"
 #include "../include/GLMat.h"
 #include "../include/GLMouse.h"
