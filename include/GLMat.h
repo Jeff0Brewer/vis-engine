@@ -3,9 +3,13 @@
 
 #include <math.h>
 
-void multiplyMat4(const float *a, const float *b, float *out);
+void cross(const float *a, const float *b, float *out);
+
+void normalize(float *v);
 
 void copyMat4(const float *a, float *out);
+
+void multiplyMat4(const float *a, const float *b, float *out);
 
 void setIdentityMatrix(float *matrix);
 

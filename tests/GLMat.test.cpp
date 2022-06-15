@@ -1,5 +1,5 @@
 #include "catch.hpp"
-#include "../src/GLMat.cpp"
+#include "../include/GLMat.h"
 
 #include <math.h>
 
