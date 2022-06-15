@@ -16,7 +16,7 @@ void normalize(float *v) {
     v[2] /= mag;
 }
 
-void copyMat4(float *a, float *out) {
+void copyMat4(const float *a, float *out) {
     for(int i = 0; i < 16; i++) {
         out[i] = a[i];
     }
@@ -44,7 +44,7 @@ void setIdentityMatrix(float *matrix) {
     matrix[15] = 1.0f;
 }
 
-void multiplyMat4(float *a, float *b, float *out) {
+void multiplyMat4(const float *a, const float *b, float *out) {
     out[0] = a[0]*b[0] + a[1]*b[4] + a[2]*b[8] + a[3]*b[12];
     out[1] = a[0]*b[1] + a[1]*b[5] + a[2]*b[9] + a[3]*b[13];
     out[2] = a[0]*b[2] + a[1]*b[6] + a[2]*b[10] + a[3]*b[14];
@@ -66,7 +66,7 @@ void multiplyMat4(float *a, float *b, float *out) {
     out[15] = a[12]*b[3] + a[13]*b[7] + a[14]*b[11] + a[15]*b[15];
 }
 
-void setRotationMatrix(double angle, float x, float y, float z, float *matrix) {
+void setRotationMatrix(const double angle, const float x, const float y, const float z, float *matrix) {
     float c = float(cos(angle));
     float nc = 1.0f - c;
     float s = float(sin(angle));
@@ -118,7 +118,7 @@ void setPerspectiveMatrix(const float fov, const float near, const float far, co
     matrix[15] = 0.0f;
 }
 
-void setViewMatrix(float *position, float *focus, float *up, float *right, float *matrix) {
+void setViewMatrix(const float *position, const float *focus, float *up, float *right, float *matrix) {
     float forward[3] = {
         position[0] - focus[0],
         position[1] - focus[1],

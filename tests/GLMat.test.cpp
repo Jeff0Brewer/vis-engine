@@ -57,13 +57,22 @@ TEST_CASE("Verify identity matrix", "[setIdentityMatrix]") {
 }
 
 TEST_CASE("Matrix multiplication with identity is unchanged", "[multiplyMat4]") {
-    float id[16] = {};
-    setIdentityMatrix(id);
-
-    float mat[16] = {0.3f, 0.7f, 0.9f, 0.4f, 0.4f, 0.7f, 0.7f, 0.0f, 0.9f, 0.4f, 0.8f, 0.3f, 0.6f, 0.5f, 0.8f, 0.6f};
+    float id[16] = {
+        1.0f, 0.0f, 0.0f, 0.0f,
+        0.0f, 1.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 1.0f, 0.0f,
+        0.0f, 0.0f, 0.0f, 1.0f
+    };
+    float mat[16] = {
+        0.3f, 0.7f, 0.9f, 0.4f, 
+        0.4f, 0.7f, 0.7f, 0.0f, 
+        0.9f, 0.4f, 0.8f, 0.3f, 
+        0.6f, 0.5f, 0.8f, 0.6f
+    };
     float copy[16] = {};
-    copyMat4(mat, copy);
-
+    for (int i = 0; i < 16; i++) {
+        copy[i] = mat[i];
+    }
     float res[16] = {};
     multiplyMat4(mat, id, res);
 
