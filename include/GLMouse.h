@@ -3,6 +3,6 @@
 
 #include "GLMat.h"
 
-void mouseRotate(double mouseX, double mouseY, bool mouseDown, float *up, float *right, float *matrix);
+void mouseRotate(const double mouseX, const double mouseY, const bool mouseDown, const float *up, const float *right, float *matrix);
 
 #endif
